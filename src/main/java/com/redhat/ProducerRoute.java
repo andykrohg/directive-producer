@@ -24,7 +24,7 @@ public class ProducerRoute extends RouteBuilder {
 		KafkaConfiguration kafkaConfig = new KafkaConfiguration();
 		kafkaConfig.setBrokers("my-cluster-kafka-bootstrap-myproject.apps.akrohg-openshift.redhatgov.io:443");
 		kafkaConfig.setSecurityProtocol("SSL");
-		kafkaConfig.setSslTruststoreLocation("src/main/resources/keystore.jks");
+		kafkaConfig.setSslTruststoreLocation("/tmp/src/src/main/resources/keystore.jks");
 		kafkaConfig.setSslTruststorePassword("password");
 		kafka.setConfiguration(kafkaConfig);
 		
