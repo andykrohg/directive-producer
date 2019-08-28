@@ -7,24 +7,27 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 		<script>
-			function sendDirective() {
-				var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
-				var theUrl = "/camel/rest/produce";
-				xmlhttp.open("POST", theUrl);
-				xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-				xmlhttp.send('{"username":"javathelo","direction":"up"}');
+			function sendDirective(direction) {
+				if ($('#username').val().trim() == ''){
+					alert("Please enter a username.");
+					return;
+				}
+				var request = new XMLHttpRequest();
+				request.open("POST", "/camel/rest/produce");
+				request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+				request.send('{"username":"' + $('#username').val() + '","direction":"' + direction.id + '"}');
 			}
 		</script>
 	</head>
 	<body>
 		<div class="container text-center" style="font-size: 100px">
-			<input class="form-control" placeholder="Name" type="text" name="username" style="margin-top:50px;margin-bottom:50px"/>
-			<a onclick="sendDirective()"><i class="fa fa-arrow-circle-up"></i></a><br/>
-			<a><i class="fa fa-arrow-circle-left"></i></a>
+			<input class="form-control" placeholder="Name" type="text" id="username" name="username" style="margin-top:50px;margin-bottom:50px" required/>
+			<a onclick="sendDirective(this)" id = "up"><i class="fa fa-arrow-circle-up"></i></a><br/>
+			<a onclick="sendDirective(this)" id = "left"><i class="fa fa-arrow-circle-left"></i></a>
 			<image src="shadowman.png" alt="shadowman" style="height:200px"/>
 			
-			<a><i class="fa fa-arrow-circle-right"></i></a><br/>
-			<a><i class="fa fa-arrow-circle-down"></i></a>
+			<a onclick="sendDirective(this)" id = "right"><i class="fa fa-arrow-circle-right"></i></a><br/>
+			<a onclick="sendDirective(this)" id = "down"><i class="fa fa-arrow-circle-down"></i></a>
 		</div>
 	</body>
 </html>
