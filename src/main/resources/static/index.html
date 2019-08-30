@@ -7,14 +7,10 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 		<script>
-			$(document).ready(function(){
-				$('a').bind('touchstart', function() {
-					$(this).css("color", "#a61600");
-				});
-
-				$('a').bind('touchend', function() {
-					$(this).css("color", "red");
-				});
+			const color = ["White", "Red"][Math.floor(Math.random() * 2)];
+			
+			$(document).ready(function() {
+				$("#team").html(`Team ${color} Hat`);
 			});
 		
 			function sendDirective(direction) {
@@ -22,8 +18,15 @@
 					alert("Please enter a username.");
 					return;
 				}
+
+				//disable buttons for 2 seconds to prevent spam
+				$('button').attr("disabled", true);
+				setTimeout(function(){
+					$('button').attr("disabled", false);
+				}, 2000);
+				
 				var request = new XMLHttpRequest();
-				request.open("POST", "/camel/rest/produce");
+				request.open("POST", "/camel/rest/produce/" + color.toLowerCase()	);
 				request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 				request.send('{"username":"' + $('#username').val() + '","direction":"' + direction.id + '"}');
 			}
@@ -31,29 +34,30 @@
 	</head>
 	<body>
 		<div class="container text-center align-middle" style="font-size: 100px;color:red;vertical-align:center">
+			<h2 id = "team"></h2>
 			<input class="form-control" placeholder="Name" type="text" id="username" name="username" style="margin-top:50px;margin-bottom:50px" required/>
 			<div class = "row">
 				<div class = "col"></div>
 				<div class = "col">
-					<a onclick="sendDirective(this)" id = "up"><i class="fa fa-arrow-circle-up"></i></a>
+					<button onclick="sendDirective(this)" id = "up"><i class="fa fa-arrow-circle-up"></i></button>
 				</div>
 				<div class = "col"></div>
 			</div>
 			<div class = "row">
 				<div class = "col align-self-center">
-					<a onclick="sendDirective(this)" id = "left"><i class="fa fa-arrow-circle-left"></i></a>
+					<button onclick="sendDirective(this)" id = "left"><i class="fa fa-arrow-circle-left"></i></button>
 				</div>
 				<div class = "col">
 					<image src="shadowman.png" alt="shadowman" style="width:100%"/>
 				</div>
 				<div class = "col align-self-center">
-					<a onclick="sendDirective(this)" id = "right"><i class="fa fa-arrow-circle-right"></i></a>
+					<button onclick="sendDirective(this)" id = "right"><i class="fa fa-arrow-circle-right"></i></button>
 				</div>
 			</div>
 			<div class = "row">
 				<div class = "col"></div>
 				<div class = "col">
-					<a onclick="sendDirective(this)" id = "down"><i class="fa fa-arrow-circle-down"></i></a>
+					<button onclick="sendDirective(this)" id = "down"><i class="fa fa-arrow-circle-down"></i></button>
 				</div>
 				<div class = "col"></div>
 			</div>

@@ -1,7 +1,5 @@
 package com.redhat;
 
-import java.util.Map;
-
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
 import org.apache.camel.Processor;
@@ -31,19 +29,16 @@ public class ProducerRoute extends RouteBuilder {
 		getContext().addComponent("kafka", kafka);
 		
 		rest("/rest")
-		.post("/produce").route().streamCaching().process(new Processor() {
+		.post("/produce/{color}").route().streamCaching().process(new Processor() {
 			@Override
 			public void process(Exchange exchange) throws Exception {
 				Message message = exchange.getIn();
-//				String username = message.getBody(Map.class).get("resourceType").toString().toLowerCase();
-//				String direction = message.getBody(Map.class).get("resourceType").toString().toLowerCase();
-				
 				log.info("Received message: {}", message.getBody(String.class));
 				
 				message.setBody(new ObjectMapper().writeValueAsString(exchange.getIn().getBody()));
 				message.setHeader(KafkaConstants.PARTITION_KEY, 0);
 				message.setHeader(KafkaConstants.KEY, "Camel");
 			}
-		}).recipientList(simple("kafka:directive")).setBody(constant("Message sent successfully."));
+		}).recipientList(simple("kafka:directive-${header.color}")).setBody(constant("Message sent successfully."));
 	}
 }
