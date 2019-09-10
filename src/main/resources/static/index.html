@@ -12,10 +12,10 @@
 			$(document).ready(function() {
 				$("#team").html(`Team ${color} Hat`);
 
-				$('a').bind('touchstart', function() {
+				$('a').bind('touchstart mousedown', function() {
 					$(this).css("color", "#a61600");
 				});
-				$('a').bind('touchend', function() {
+				$('a').bind('touchend mouseup', function() {
 					$(this).css("color", "red");
 				});
 			});
