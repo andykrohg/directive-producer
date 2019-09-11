@@ -15,6 +15,9 @@
  */
 package com.redhat;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ImportResource;
@@ -27,7 +30,10 @@ import org.springframework.context.annotation.ImportResource;
 public class Application {
 
     // must have a main method spring-boot can run
-    public static void main(String[] args) {
+    public static void main(String[] args) throws GeneralSecurityException, IOException {
+    	TrustStore.createFromCrtFile("/tmp/src/src/main/resources/ca.crt",
+    								 "/tmp/src/src/main/resources/keystore.jks",
+    								 "password".toCharArray());
         SpringApplication.run(Application.class, args);
     }
 
