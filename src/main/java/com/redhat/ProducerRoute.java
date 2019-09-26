@@ -1,5 +1,7 @@
 package com.redhat;
 
+import java.util.Properties;
+
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
 import org.apache.camel.Processor;
@@ -18,12 +20,19 @@ public class ProducerRoute extends RouteBuilder {
 	public void configure() throws Exception {
 		restConfiguration().component("servlet").bindingMode(RestBindingMode.json);
 
-		KafkaComponent kafka = new KafkaComponent();
+		Properties props = new Properties();
+		props.load(ProducerRoute.class.getClassLoader().getResourceAsStream("kafka.properties"));
+		
+		TrustStore.createFromCrtFile("/tmp/certs/ca.crt",
+				props.getProperty("kafka.ssl.truststore.location"),
+				props.getProperty("kafka.ssl.truststore.password").toCharArray());
+		
+		KafkaComponent kafka = new KafkaComponent();		
 		KafkaConfiguration kafkaConfig = new KafkaConfiguration();
-		kafkaConfig.setBrokers("my-cluster-kafka-external-bootstrap:9094");
-		kafkaConfig.setSecurityProtocol("SSL");
-		kafkaConfig.setSslTruststoreLocation("/tmp/src/src/main/resources/keystore.jks");
-		kafkaConfig.setSslTruststorePassword("password");
+		kafkaConfig.setBrokers(props.getProperty("kafka.brokers"));
+		kafkaConfig.setSecurityProtocol(props.getProperty("kafka.security.protocol"));
+		kafkaConfig.setSslTruststoreLocation(props.getProperty("kafka.ssl.truststore.location"));
+		kafkaConfig.setSslTruststorePassword(props.getProperty("kafka.ssl.truststore.password"));
 		kafka.setConfiguration(kafkaConfig);
 
 		getContext().addComponent("kafka", kafka);
