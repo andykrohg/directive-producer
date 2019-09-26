@@ -20,7 +20,7 @@ public class ProducerRoute extends RouteBuilder {
 
 		KafkaComponent kafka = new KafkaComponent();
 		KafkaConfiguration kafkaConfig = new KafkaConfiguration();
-		kafkaConfig.setBrokers("my-cluster-kafka-external-bootstrap.myproject.svc:9094");
+		kafkaConfig.setBrokers("my-cluster-kafka-external-bootstrap:9094");
 		kafkaConfig.setSecurityProtocol("SSL");
 		kafkaConfig.setSslTruststoreLocation("/tmp/src/src/main/resources/keystore.jks");
 		kafkaConfig.setSslTruststorePassword("password");
