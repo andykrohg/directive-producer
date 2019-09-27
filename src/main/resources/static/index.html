@@ -19,6 +19,8 @@
 					$(this).css("color", "red");
 				});
 
+				$("#next-button").prop("disabled", $('#username').val().trim() == '');
+				
 				$("#username").on('input', function() {
 					$("#next-button").prop("disabled", $(this).val().trim() == '');
 					$("#username-label").html(`Sending commands as ${$(this).val().trim()}`);
@@ -43,10 +45,15 @@
 			  </div>
 			</nav>
 			<div class="tab-content" id="nav-tabContent">
+			<div>
+				<image src="redhat.png" alt = "Red Hat" style="height:50px;margin-bottom:-25px"/>
+				<span style="color:grey;font-size:35px">Demo Jam</span>
+			</div>
+			
 			  <div class="tab-pane fade show active" id="nav-name" role="tabpanel" aria-labelledby="nav-name-tab">
 			  	<h2>You've been placed on <span class="team"></span></h2>
 			  	<input class="form-control" placeholder="Enter Your Name" type="text" id="username" name="username" style="margin-top:50px;margin-bottom:50px" required/>
-			  	<button id = "next-button" class = "btn btn-primary btn-lg" disabled="true" onclick="$('#nav-remote-tab').tab('show')">Next</button>
+			  	<button id = "next-button" class = "btn btn-primary btn-lg" onclick="$('#nav-remote-tab').tab('show')">Next</button>
 			  </div>
 			  <div class="tab-pane fade" id="nav-remote" role="tabpanel" aria-labelledby="nav-remote-tab">
 			  	<h2 class = "team"></h2>
