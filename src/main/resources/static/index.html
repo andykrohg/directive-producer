@@ -10,7 +10,7 @@
 			const color = ["White", "Red"][Math.floor(Math.random() * 2)];
 			
 			$(document).ready(function() {
-				$("#team").html(`Team ${color} Hat`);
+				$(".team").html(`Team ${color} Hat`);
 
 				$('a').bind('touchstart mousedown', function() {
 					$(this).css("color", "#a61600");
@@ -18,20 +18,15 @@
 				$('a').bind('touchend mouseup', function() {
 					$(this).css("color", "red");
 				});
+
+				$("#username").on('input', function() {
+					$("#next-button").prop("disabled", $(this).val().trim() == '');
+					$("#username-label").html(`Sending commands as ${$(this).val().trim()}`);
+				});
+				
 			});
 		
 			function sendDirective(direction) {
-				if ($('#username').val().trim() == ''){
-					alert("Please enter a username.");
-					return;
-				}
-
-				//disable buttons for 2 seconds to prevent spam
-				$('button').attr("disabled", true);
-				setTimeout(function(){
-					$('button').attr("disabled", false);
-				}, 2000);
-				
 				var request = new XMLHttpRequest();
 				request.open("POST", "/camel/rest/produce/" + color.toLowerCase()	);
 				request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -41,32 +36,47 @@
 	</head>
 	<body>
 		<div class="container text-center align-middle" style="font-size:100px;color:red;vertical-align:center">
-			<h2 id = "team"></h2>
-			<input class="form-control" placeholder="Name" type="text" id="username" name="username" style="margin-top:50px;margin-bottom:50px" required/>
-			<div class = "row">
-				<div class = "col"></div>
-				<div class = "col">
-					<a onclick="sendDirective(this)" id = "up"><i class="fa fa-arrow-circle-up"></i></a>
+			<nav style="display:none">
+			  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+			    <a class="nav-item nav-link active" id="nav-name-tab" data-toggle="tab" href="#nav-name" role="tab" aria-controls="nav-name" aria-selected="true">Home</a>
+			    <a class="nav-item nav-link" id="nav-remote-tab" data-toggle="tab" href="#nav-remote" role="tab" aria-controls="nav-remote" aria-selected="false">Profile</a>
+			  </div>
+			</nav>
+			<div class="tab-content" id="nav-tabContent">
+			  <div class="tab-pane fade show active" id="nav-name" role="tabpanel" aria-labelledby="nav-name-tab">
+			  	<h2>You've been placed on <span class="team"></span></h2>
+			  	<input class="form-control" placeholder="Enter Your Name" type="text" id="username" name="username" style="margin-top:50px;margin-bottom:50px" required/>
+			  	<button id = "next-button" class = "btn btn-primary btn-lg" disabled="true" onclick="$('#nav-remote-tab').tab('show')">Next</button>
+			  </div>
+			  <div class="tab-pane fade" id="nav-remote" role="tabpanel" aria-labelledby="nav-remote-tab">
+			  	<h2 class = "team"></h2>
+			  	<h5 style="color:grey" id="username-label"></h5>
+				<div class = "row">
+					<div class = "col"></div>
+					<div class = "col">
+						<a onclick="sendDirective(this)" id = "up"><i class="fa fa-arrow-circle-up"></i></a>
+					</div>
+					<div class = "col"></div>
 				</div>
-				<div class = "col"></div>
-			</div>
-			<div class = "row">
-				<div class = "col align-self-center">
-					<a onclick="sendDirective(this)" id = "left"><i class="fa fa-arrow-circle-left"></i></a>
+				<div class = "row">
+					<div class = "col align-self-center">
+						<a onclick="sendDirective(this)" id = "left"><i class="fa fa-arrow-circle-left"></i></a>
+					</div>
+					<div class = "col">
+						<image src="shadowman.png" alt="shadowman" style="width:100%"/>
+					</div>
+					<div class = "col align-self-center">
+						<a onclick="sendDirective(this)" id = "right"><i class="fa fa-arrow-circle-right"></i></a>
+					</div>
 				</div>
-				<div class = "col">
-					<image src="shadowman.png" alt="shadowman" style="width:100%"/>
+				<div class = "row">
+					<div class = "col"></div>
+					<div class = "col">
+						<a onclick="sendDirective(this)" id = "down"><i class="fa fa-arrow-circle-down"></i></a>
+					</div>
+					<div class = "col"></div>
 				</div>
-				<div class = "col align-self-center">
-					<a onclick="sendDirective(this)" id = "right"><i class="fa fa-arrow-circle-right"></i></a>
-				</div>
-			</div>
-			<div class = "row">
-				<div class = "col"></div>
-				<div class = "col">
-					<a onclick="sendDirective(this)" id = "down"><i class="fa fa-arrow-circle-down"></i></a>
-				</div>
-				<div class = "col"></div>
+			  </div>
 			</div>
 		</div>
 	</body>
