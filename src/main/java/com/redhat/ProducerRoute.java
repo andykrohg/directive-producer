@@ -29,7 +29,7 @@ public class ProducerRoute extends RouteBuilder {
 		
 		KafkaComponent kafka = new KafkaComponent();		
 		KafkaConfiguration kafkaConfig = new KafkaConfiguration();
-		kafkaConfig.setBrokers(props.getProperty("kafka.brokers"));
+		kafkaConfig.setBrokers(System.getenv("KAFKA_BROKERS"));
 		kafkaConfig.setSecurityProtocol(props.getProperty("kafka.security.protocol"));
 		kafkaConfig.setSslTruststoreLocation(props.getProperty("kafka.ssl.truststore.location"));
 		kafkaConfig.setSslTruststorePassword(props.getProperty("kafka.ssl.truststore.password"));
