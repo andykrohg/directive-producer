@@ -10,15 +10,14 @@
 			const color = ["White", "Red"][Math.floor(Math.random() * 2)];
 			
 			$(document).ready(function() {
-				$(".team").html(`Team ${color} Hat`);
+				$(".team").html(`${color} Team`);
 
-				$('body').css('background-color', color.toLowercase());
-
+				$(".container").css("color", color.toLowerCase());				
 				$('a').bind('touchstart mousedown', function() {
 					$(this).css("color", "#a61600");
 				});
 				$('a').bind('touchend mouseup', function() {
-					$(this).css("color", "red");
+					$(this).css("color", color.toLowerCase());
 				});
 
 				$("#next-button").prop("disabled", $('#username').val().trim() == '');
@@ -38,8 +37,8 @@
 			}
 		</script>
 	</head>
-	<body>
-		<div class="container text-center align-middle" style="font-size:100px;color:red;vertical-align:center">
+	<body style="background-color:#cccccc">
+		<div class="container text-center align-middle" style="font-size:100px;vertical-align:center">
 			<nav style="display:none">
 			  <div class="nav nav-tabs" id="nav-tab" role="tablist">
 			    <a class="nav-item nav-link active" id="nav-name-tab" data-toggle="tab" href="#nav-name" role="tab" aria-controls="nav-name" aria-selected="true">Home</a>
@@ -49,11 +48,11 @@
 			<div class="tab-content" id="nav-tabContent">
 			<div>
 				<image src="redhat.png" alt = "Red Hat" style="height:40px;margin-bottom:-30px"/>
-				<span style="color:grey;font-size:25px">DemoJam</span>
+				<span style="color:black;font-size:25px">DemoJam</span>
 			</div>
 			
 			  <div class="tab-pane fade show active" id="nav-name" role="tabpanel" aria-labelledby="nav-name-tab">
-			  	<h2>You've been placed on <span class="team"></span></h2>
+			  	<h1><span class="team"></span></h1>
 			  	<input class="form-control" placeholder="Enter Your Name" type="text" id="username" name="username" style="margin-top:50px;margin-bottom:50px" required/>
 			  	<button id = "next-button" class = "btn btn-primary btn-lg" onclick="$('#nav-remote-tab').tab('show')">Next</button>
 			  </div>
