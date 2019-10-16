@@ -12,6 +12,8 @@
 			$(document).ready(function() {
 				$(".team").html(`Team ${color} Hat`);
 
+				$('body').css('background-color', color.toLowercase());
+
 				$('a').bind('touchstart mousedown', function() {
 					$(this).css("color", "#a61600");
 				});
